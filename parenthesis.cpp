@@ -1,37 +1,31 @@
-#include <iostream>
-#include <stack>
+#include <bits/stdc++.h>
 using namespace std;
-
-int main() {
-    int n;
-    cout << "Enter number of elements: ";
-    cin >> n;
-
-    int arr[100];
-    int result[100];
-
-    for (int i = 0; i < n; i++)
-        result[i] = -1;
-
-    cout << "Enter elements: ";
-    for (int i = 0; i < n; i++)
-        cin >> arr[i];
-
-    stack<int> st;
-
-    for (int i = 0; i < n; i++) {
-        while (!st.empty() && arr[i] > arr[st.top()]) {
-            result[st.top()] = arr[i];
+ 
+bool isValid(string s) {
+    stack<char> st;
+ 
+    for (char c : s) {
+        if (c == '(' || c == '{' || c == '[') {
+            st.push(c);
+        } else {
+            if (st.empty()) return false;    
+            char top = st.top();
             st.pop();
+ 
+            if ((c == ')' && top != '(') ||
+                (c == '}' && top != '{') ||
+                (c == ']' && top != '[')) {
+                return false;                 
+            }
         }
-
-        st.push(i);
     }
-
-    cout << "Next Greater Elements: ";
-
-    for (int i = 0; i < n; i++)
-        cout << result[i] << " ";
-
-    return 0;
+    return st.empty();   
 }
+ 
+int main() {
+    string s;
+    cout << "Enter a string of brackets: ";
+    cin >> s;
+ 
+    cout << "Is valid: " << (isValid(s) ? "true" : "false") << endl;
+ 
